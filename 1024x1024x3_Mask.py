@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from matplotlib.path import Path
 import matplotlib.patches as patches
 import math
-
+ 
 
 
 n = np.random.randint(1,15)     #8 # Number of possibly sharp edges
