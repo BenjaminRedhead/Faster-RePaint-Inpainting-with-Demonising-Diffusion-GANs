@@ -207,25 +207,14 @@ class Posterior_Coefficients():
         
         self.posterior_log_variance_clipped = torch.log(self.posterior_variance.clamp(min=1e-20))
 
-def randmask():
-    #creates a random tensor of the necessary size for masking 1024*1024 RGB images - BR
-    mask = np.full((1024,1024,3),False)
-    for i in (np.random.randint(4000,36000)):
-        a = np.random.randint(0,1024)
-        b = np.random.randint(0,1024)
-        mask[a][b] = (1,1,1)
-    return mask
-
         
 def sample_posterior(coefficients, x_0,x_t, t, x_i):
     #editing code to implement repainting sampling strategy here so the output which goes into the GAN's discriminator is the inpainted image -BR
 
     def implement_masking(x_0,x_i):
         # this function is implementing the masking -BR
-        mask = randmask()
-        negm = mask*(-1)
-        full = np.ones((1024,1024,3))
-        inv = negm + full
+        mask = maskgen()
+        inv = cv2.invert(mask)
         mx_0 = x_0*(1 - inv) + x_i*(1 - mask)
         return mx_0
     
