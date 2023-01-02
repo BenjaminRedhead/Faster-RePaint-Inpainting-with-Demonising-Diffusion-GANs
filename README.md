@@ -1,6 +1,13 @@
-# RePaint
-**Faster Inpainting using Denoising Diffusion GANS**
+# Faster RePaint
 
+## Faster RePaint fills a missing image part using denoising diffusion GANS
+
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><img alt="RePaint Inpainting using Denoising Diffusion Probabilistic Models Demo 1" src="https://user-images.githubusercontent.com/11280511/150766080-9f3d7bc9-99f2-472e-9e5d-b6ed456340d1.gif"></td>
+        <td><img alt="RePaint Inpainting using Denoising Diffusion Probabilistic Models Demo 2" src="https://user-images.githubusercontent.com/11280511/150766125-adf5a3cb-17f2-432c-a8f6-ce0b97122819.gif"></td>
+  </tr>
+</table>
 
 
 ## Setup
@@ -39,16 +46,5 @@ The scripts for generating samples on LSUN Church Outdoor is
 python3 test_ddgan.py --dataset lsun --image_size 256 --exp ddgan_lsun_exp1 --num_channels 3 --num_channels_dae 64 \
 --ch_mult 1 1 2 2 4 4  --num_timesteps 4 --num_res_blocks 2  --epoch_id $EPOCH
 ```
-
-<br>
-
-# RePaint fills a missing image part using diffusion models
-
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td><img alt="RePaint Inpainting using Denoising Diffusion Probabilistic Models Demo 1" src="https://user-images.githubusercontent.com/11280511/150766080-9f3d7bc9-99f2-472e-9e5d-b6ed456340d1.gif"></td>
-        <td><img alt="RePaint Inpainting using Denoising Diffusion Probabilistic Models Demo 2" src="https://user-images.githubusercontent.com/11280511/150766125-adf5a3cb-17f2-432c-a8f6-ce0b97122819.gif"></td>
-  </tr>
-</table>
 
 
