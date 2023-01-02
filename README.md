@@ -1,8 +1,10 @@
 # Faster RePaint
 #### The implementation were forked and merged from:
-```https://github.com/NVlabs/denoising-diffusion-gan.git
-\n https://github.com/andreas128/RePaint
+```https://github.com/NVlabs/denoising-diffusion-gan
 ```
+```https://github.com/andreas128/RePaint
+```
+
 
 ## Faster RePaint fills a missing image part using denoising diffusion GANS
 
@@ -20,7 +22,7 @@
 
 ### 1. Environment
 ```bash
-pip install numpy torch blobfile tqdm pyYaml pillow    # e.g. torch 1.7.1+cu110.
+pip install numpy torch blobfile tqdm pyYaml pillow  
 ```
 
 ### 3. Download models and data
