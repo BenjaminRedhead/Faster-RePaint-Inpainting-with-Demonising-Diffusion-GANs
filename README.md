@@ -1,5 +1,5 @@
 # Faster RePaint
-#### The implementation were forked and merged from:
+#### The implementation is based on DDGAN & RePaint:
 ```bash
 https://github.com/NVlabs/denoising-diffusion-gan & https://github.com/andreas128/RePaint
 ```
@@ -28,9 +28,9 @@ pip install numpy torch blobfile tqdm pyYaml pillow
 pip install --upgrade gdown && bash ./download.sh
 ```
 ## Pretrained Checkpoints ##
-We have released pretrained checkpoints on CIFAR-10 and CelebA HQ 256 at this 
+There are released pretrained checkpoints on CIFAR-10 and CelebA HQ 256 at this 
 [Google drive directory](https://drive.google.com/drive/folders/1UkzsI0SwBRstMYysRdR76C1XdSv5rQNz?usp=sharing).
-Simply download the `saved_info` directory to the code directory. Use  `--epoch_id 550` for CelebA HQ 256 in the commands below.
+Simply download the  CelebA model, and put it inside `model` directory to the code directory. Use  `--epoch_id 550` for CelebA HQ 256 in the commands below.
 
 ### Evaluation
 #### CelebA HQ 256 ####
