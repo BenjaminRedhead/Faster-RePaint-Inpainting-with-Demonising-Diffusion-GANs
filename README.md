@@ -1,20 +1,13 @@
 # RePaint
-**Inpainting using Denoising Diffusion Probabilistic Models**
+**Faster Inpainting using Denoising Diffusion GANS**
 
 
-CVPR 2022 [[Paper]](https://bit.ly/3b1ABEb)
-
-[![Denoising_Diffusion_Inpainting_Animation](https://user-images.githubusercontent.com/11280511/150849757-5cd762cb-07a3-46aa-a906-0fe4606eba3b.gif)](#)
 
 ## Setup
 
-### 1. Code
 
-```bash
-git clone https://github.com/andreas128/RePaint.git
-```
 
-### 2. Environment
+### 1. Environment
 ```bash
 pip install numpy torch blobfile tqdm pyYaml pillow    # e.g. torch 1.7.1+cu110.
 ```
@@ -76,39 +69,7 @@ Copy the config file for the dataset that matches your data best (for faces alig
 
 If you work with other data than faces, places or general images, train a model using the [guided-diffusion](https://github.com/openai/guided-diffusion) repository. Note that RePaint is an inference scheme. We do not train or finetune the diffusion model but condition pre-trained models.
 
-## Adapt the code
 
-**How to design a new schedule?**
-
-Fill in your own parameters in this [line](https://github.com/andreas128/RePaint/blob/0fea066b52346c331cdf1bf7aed616c8c8896714/guided_diffusion/scheduler.py#L180) to visualize the schedule using `python guided_diffusion/scheduler.py`. Then copy a config file, set your parameters in these [lines](https://github.com/andreas128/RePaint/blob/0fea066b52346c331cdf1bf7aed616c8c8896714/confs/face_example.yml#L61-L65) and run the inference using `python test.py --conf_path confs/my_schedule.yml`. 
-
-**How to speed up the inference?**
-
-The following settings are in the [schedule_jump_params](https://github.com/andreas128/RePaint/blob/0fea066b52346c331cdf1bf7aed616c8c8896714/confs/face_example.yml#L61) key in the config files. You can visualize them as described above.
-
-- Reduce `t_T`, the total number of steps (without resampling). The lower it is, the more noise gets removed per step.
-- Reduce `jump_n_sample` to resample fewer times.
-- Apply resampling not from the beginning but only after a specific time by setting `start_resampling`.
-
-## Code overview
-
-- **Schedule:** The list of diffusion times t which will be traversed are obtained in this [line](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L503). e.g. times = [249, 248, 249, 248, 247, 248, 247, 248, 247, 246, ...]
-- **Denoise:** Reverse diffusion steps from x<sub>t</sub> (more noise) to a x<sub>t-1</sub> (less noisy) are done below this [line](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L515).
-- **Predict:** The model is called [here](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L237) and obtains x<sub>t</sub> and the time t to predict a tensor with 6 channels containing information about the mean and variance of x<sub>t-1</sub>. Then the value range of the variance is adjusted [here](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L252). The mean of x<sub>t-1</sub> is obtained by the weighted sum of the estimated [x<sub>0</sub>](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L270) and x<sub>t</sub> [here](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L189). The obtained mean and variance is used [here](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L402) to sample x<sub>t-1</sub>. (This is the original reverse step from [guided-diffusion](https://github.com/openai/guided-diffusion.git). )
-- **Condition:** The known part of the input image needs to have the same amount of noise as the part that the diffusion model generates to join them. The required amount of noise is calculated [here](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L368) and added to the known part [here](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L371). The generated and sampled parts get joined using a maks [here](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L373).
-- **Undo:** The forward diffusion steps from x<sub>t-1</sub> to x<sub>t</sub> is done after this [line](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L536). The noise gets added to x<sub>t-1</sub> [here](https://github.com/andreas128/RePaint/blob/76cb5b49d3f28715980f6e809c6859b148be9867/guided_diffusion/gaussian_diffusion.py#L176).
-
-## Issues
-
-**Do you have further questions?**
-
-Please open an [issue](https://github.com/andreas128/RePaint/issues), and we will try to help you.
-
-**Did you find a mistake?**
-
-Please create a pull request. For examply by clicking the pencil button on the top right on the github page.
-
-<br>
 
 # RePaint on diverse content and shapes of missing regions
 
