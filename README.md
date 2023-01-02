@@ -1,4 +1,8 @@
 # Faster RePaint
+#### The implementation were forked and merged from:
+```https://github.com/NVlabs/denoising-diffusion-gan.git
+\n https://github.com/andreas128/RePaint
+```
 
 ## Faster RePaint fills a missing image part using denoising diffusion GANS
 
